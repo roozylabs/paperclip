@@ -1,0 +1,75 @@
+{
+  "name": "@paperclipai/adapter-roozy-gateway",
+  "version": "0.1.0",
+  "description": "Paperclip adapter for RoozyLabs AI Gateway (OpenAI-compatible LLM gateway with smart routing)",
+  "type": "module",
+  "license": "MIT",
+  "author": "RoozyLabs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roozylabs/ai-gateway"
+  },
+  "keywords": [
+    "paperclip",
+    "paperclip-adapter",
+    "roozylabs",
+    "ai-gateway",
+    "llm-gateway",
+    "adapter"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts",
+    "./ui": "./src/ui/index.ts",
+    "./cli": "./src/cli/index.ts",
+    "./ui-parser": "./dist/ui-parser.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./server": {
+        "types": "./dist/server/index.d.ts",
+        "import": "./dist/server/index.js"
+      },
+      "./ui": {
+        "types": "./dist/ui/index.d.ts",
+        "import": "./dist/ui/index.js"
+      },
+      "./cli": {
+        "types": "./dist/cli/index.d.ts",
+        "import": "./dist/cli/index.js"
+      },
+      "./ui-parser": "./dist/ui-parser.js"
+    },
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@paperclipai/adapter-utils": "workspace:*",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

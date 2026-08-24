@@ -12,6 +12,7 @@ import { printOpenCodeStreamEvent } from "@paperclipai/adapter-opencode-local/cl
 import { printOpenCodeZenStreamEvent } from "@paperclipai/adapter-opencode-zen/cli";
 import { printPiStreamEvent } from "@paperclipai/adapter-pi-local/cli";
 import { printOpenClawGatewayStreamEvent } from "@paperclipai/adapter-openclaw-gateway/cli";
+import { printRoozyGatewayStreamEvent } from "@paperclipai/adapter-roozy-gateway/cli";
 import { processCLIAdapter } from "./process/index.js";
 import { httpCLIAdapter } from "./http/index.js";
 
@@ -80,6 +81,11 @@ const openclawGatewayCLIAdapter: CLIAdapterModule = {
   formatStdoutEvent: printOpenClawGatewayStreamEvent,
 };
 
+const roozyGatewayCLIAdapter: CLIAdapterModule = {
+  type: "roozy_gateway",
+  formatStdoutEvent: printRoozyGatewayStreamEvent,
+};
+
 const adaptersByType = new Map<string, CLIAdapterModule>(
   [
     antigravityLocalCLIAdapter,
@@ -95,6 +101,7 @@ const adaptersByType = new Map<string, CLIAdapterModule>(
     hermesGatewayCLIAdapter,
     hermesLocalCLIAdapter,
     openclawGatewayCLIAdapter,
+    roozyGatewayCLIAdapter,
     processCLIAdapter,
     httpCLIAdapter,
   ].map((a) => [a.type, a]),

@@ -128,6 +128,7 @@ import {
   agentConfigurationDoc as openclawGatewayAgentConfigurationDoc,
   models as openclawGatewayModels,
 } from "@paperclipai/adapter-openclaw-gateway";
+import { createServerAdapter as createRoozyGatewayServerAdapter } from "@paperclipai/adapter-roozy-gateway/server";
 import { listCodexModels, refreshCodexModels } from "./codex-models.js";
 import { listCursorModels } from "./cursor-models.js";
 import {
@@ -425,6 +426,8 @@ const openclawGatewayAdapter: ServerAdapterModule = {
   agentConfigurationDoc: openclawGatewayAgentConfigurationDoc,
 };
 
+const roozyGatewayAdapter = createRoozyGatewayServerAdapter();
+
 const openCodeLocalAdapter: ServerAdapterModule = {
   type: "opencode_local",
   execute: openCodeExecute,
@@ -506,6 +509,7 @@ function registerBuiltInAdapters() {
     hermesGatewayAdapter,
     hermesLocalAdapter,
     openclawGatewayAdapter,
+    roozyGatewayAdapter,
     processAdapter,
     httpAdapter,
   ]) {
