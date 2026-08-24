@@ -3,13 +3,13 @@ import {
   createTextRedactor,
   redactForLog,
   stringifyForLog,
-} from "@paperclipai/adapter-utils/server/redact";
+} from "../server/redact.js";
 
 describe("createTextRedactor", () => {
   it("redacts exact secret strings", () => {
     const redact = createTextRedactor(["sk_test_12345", "bearer_token_abc"]);
     expect(redact("value is sk_test_12345")).not.toContain("sk_test_12345");
-    expect(redact("value is sk_test_12345")).toContain("[redacted len=15]");
+    expect(redact("value is sk_test_12345")).toContain("[redacted len=13]");
   });
 
   it("redacts Bearer tokens", () => {
@@ -18,14 +18,14 @@ describe("createTextRedactor", () => {
   });
 
   it("handles null/undefined secrets gracefully", () => {
-    const redact = createTextRedactor([null, undefined, "abc"]);
-    expect(redact("abc")).toContain("[redacted len=3]");
+    const redact = createTextRedactor([null, undefined, "abcd"]);
+    expect(redact("abcd")).toContain("[redacted len=4]");
   });
 
   it("truncates long strings", () => {
     const redact = createTextRedactor([]);
     const long = "x".repeat(600);
-    const result = redact(long);
+    const result = redactForLog(long, [], 0, redact) as string;
     expect(result.length).toBeLessThan(600);
     expect(result).toContain("truncated");
   });

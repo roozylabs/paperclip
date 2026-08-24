@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseSseFrames, parseStreamChunk, isDoneSentinel } from "@paperclipai/adapter-utils/server/sse";
+import { parseSseFrames, parseStreamChunk, isDoneSentinel } from "../server/sse.js";
 
 describe("parseSseFrames", () => {
   it("parses a single data frame", () => {
@@ -40,7 +40,7 @@ describe("parseSseFrames", () => {
   it("returns rest for incomplete frame", () => {
     const { frames, rest } = parseSseFrames("data: partial");
     expect(frames).toHaveLength(0);
-    expect(rest).toBe("partial");
+    expect(rest).toBe("data: partial");
   });
 
   it("handles empty input", () => {

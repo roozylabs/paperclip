@@ -31,7 +31,10 @@ function normalizeBaseUrl(value: string): URL | null {
 }
 
 function apiUrl(baseUrl: URL, path: string): string {
-  const base = baseUrl.toString().replace(/\/+$/, "");
+  let base = baseUrl.toString().replace(/\/+$/, "");
+  if (path.startsWith("/v1/") && base.endsWith("/v1")) {
+    base = base.slice(0, -3);
+  }
   return `${base}${path}`;
 }
 
@@ -55,7 +58,10 @@ export async function testEnvironment(
   ctx: AdapterEnvironmentTestContext,
 ): Promise<AdapterEnvironmentTestResult> {
   const checks: AdapterEnvironmentCheck[] = [];
-  const baseUrlRaw = asString(ctx.config.baseUrl, DEFAULT_BASE_URL).trim();
+  const baseUrlRaw =
+    typeof ctx.config.baseUrl === "string"
+      ? ctx.config.baseUrl.trim()
+      : DEFAULT_BASE_URL;
   const apiKey = asString(ctx.config.apiKey, "").trim();
 
   if (!baseUrlRaw) {

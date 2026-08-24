@@ -4,7 +4,7 @@ import {
   createGatewayError,
   fetchFailureMessage,
   errorResult,
-} from "@paperclipai/adapter-utils/server/errors";
+} from "../server/errors.js";
 
 describe("classifyHttpStatus", () => {
   it("returns auth_failed for 401", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { testEnvironment } from "@paperclipai/adapter-utils/server/test";
+import { testEnvironment } from "../server/test.js";
 import type { AdapterEnvironmentTestContext } from "@paperclipai/adapter-utils";
 
 function createTestCtx(

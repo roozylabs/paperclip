@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getConfigSchema } from "@paperclipai/adapter-utils/server/config-schema";
+import { getConfigSchema } from "../server/config-schema.js";
 
 describe("getConfigSchema", () => {
   it("returns a valid schema with required fields", () => {

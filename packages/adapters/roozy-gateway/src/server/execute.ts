@@ -93,7 +93,10 @@ function normalizeBaseUrl(value: string): URL | null {
 }
 
 function apiUrl(baseUrl: URL, path: string): string {
-  const base = baseUrl.toString().replace(/\/+$/, "");
+  let base = baseUrl.toString().replace(/\/+$/, "");
+  if (path.startsWith("/v1/") && base.endsWith("/v1")) {
+    base = base.slice(0, -3);
+  }
   return `${base}${path}`;
 }
 
@@ -379,7 +382,10 @@ export async function execute(
 ): Promise<AdapterExecutionResult> {
   const { config, onLog, onMeta, agent, runId } = ctx;
 
-  const baseUrlRaw = asString(config.baseUrl, DEFAULT_BASE_URL).trim();
+  const baseUrlRaw =
+    typeof config.baseUrl === "string"
+      ? config.baseUrl.trim()
+      : DEFAULT_BASE_URL;
   if (!baseUrlRaw) {
     return {
       exitCode: 1,
@@ -481,12 +487,14 @@ export async function execute(
           resultJson: { url: chatUrl, model, stream },
         };
       }
+      const gwErr = createGatewayError(
+        `Gateway request failed: ${fetchFailureMessage(err)}`,
+        undefined,
+        undefined,
+      );
+      gwErr.code = "roozy_gateway_connect_failed";
       return errorResult(
-        createGatewayError(
-          `Gateway request failed: ${fetchFailureMessage(err)}`,
-          undefined,
-          undefined,
-        ),
+        gwErr,
         redactText,
       );
     }

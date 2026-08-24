@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { execute } from "@paperclipai/adapter-utils/server/execute";
+import { execute } from "../server/execute.js";
 import type { AdapterExecutionContext } from "@paperclipai/adapter-utils";
 
 function createMockCtx(
@@ -426,7 +426,7 @@ describe("execute - request body", () => {
       } as unknown as Response;
     });
 
-    const ctx = createMockCtx();
+    const ctx = createMockCtx({ stream: "false" });
     await execute(ctx);
 
     expect(capturedInit?.headers).toMatchObject({
