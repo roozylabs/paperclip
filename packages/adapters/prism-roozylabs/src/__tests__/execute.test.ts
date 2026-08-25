@@ -235,7 +235,7 @@ describe("execute - streaming response", () => {
 
     // Verify onLog was called with stdout chunks
     const stdoutCalls = onLog.mock.calls.filter(
-      ([stream, chunk]: [string, string]) => stream === "stdout",
+      (call: unknown[]) => call[0] === "stdout",
     );
     expect(stdoutCalls.length).toBeGreaterThan(0);
   });

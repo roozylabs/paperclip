@@ -9,19 +9,15 @@ import {
 export function buildRoozyGatewayConfig(
   values: CreateConfigValues,
 ): Record<string, unknown> {
+  const v = values as unknown as Record<string, unknown>;
   const ac: Record<string, unknown> = {};
-  ac.baseUrl =
-    (values as Record<string, unknown>).baseUrl ?? DEFAULT_BASE_URL;
-  ac.apiKey = (values as Record<string, unknown>).apiKey ?? "";
-  ac.model = values.model || DEFAULT_MODEL;
-  ac.stream =
-    (values as Record<string, unknown>).stream ?? DEFAULT_STREAM;
-  ac.timeoutSec =
-    (values as Record<string, unknown>).timeoutSec ?? DEFAULT_TIMEOUT_SEC;
-  ac.maxTokens =
-    (values as Record<string, unknown>).maxTokens ?? 0;
-  ac.temperature =
-    (values as Record<string, unknown>).temperature ?? 0;
+  ac.baseUrl = v.baseUrl ?? DEFAULT_BASE_URL;
+  ac.apiKey = v.apiKey ?? "";
+  ac.model = (values.model || DEFAULT_MODEL) as string;
+  ac.stream = v.stream ?? DEFAULT_STREAM;
+  ac.timeoutSec = v.timeoutSec ?? DEFAULT_TIMEOUT_SEC;
+  ac.maxTokens = v.maxTokens ?? 0;
+  ac.temperature = v.temperature ?? 0;
   ac.promptTemplate = values.promptTemplate || "";
   return ac;
 }

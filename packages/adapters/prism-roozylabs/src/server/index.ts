@@ -8,7 +8,6 @@ import { agentConfigurationDoc, models } from "../index.js";
 export function createServerAdapter(): ServerAdapterModule {
   return {
     type: ADAPTER_TYPE,
-    label: ADAPTER_LABEL,
     execute,
     testEnvironment,
     models,
