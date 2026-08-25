@@ -9,46 +9,46 @@ import {
 describe("classifyHttpStatus", () => {
   it("returns auth_failed for 401", () => {
     const result = classifyHttpStatus(401);
-    expect(result.code).toBe("roozy_gateway_auth_failed");
+    expect(result.code).toBe("prism_roozylabs_auth_failed");
     expect(result.family).toBeNull();
   });
 
   it("returns auth_failed for 403", () => {
     const result = classifyHttpStatus(403);
-    expect(result.code).toBe("roozy_gateway_auth_failed");
+    expect(result.code).toBe("prism_roozylabs_auth_failed");
     expect(result.family).toBeNull();
   });
 
   it("returns model_not_found for 404", () => {
-    expect(classifyHttpStatus(404).code).toBe("roozy_gateway_model_not_found");
+    expect(classifyHttpStatus(404).code).toBe("prism_roozylabs_model_not_found");
   });
 
   it("returns bad_request for 400", () => {
-    expect(classifyHttpStatus(400).code).toBe("roozy_gateway_bad_request");
+    expect(classifyHttpStatus(400).code).toBe("prism_roozylabs_bad_request");
   });
 
   it("returns rate_limited for 429 with transient family", () => {
     const result = classifyHttpStatus(429);
-    expect(result.code).toBe("roozy_gateway_rate_limited");
+    expect(result.code).toBe("prism_roozylabs_rate_limited");
     expect(result.family).toBe("transient_upstream");
   });
 
   it("returns upstream_error for 500 with transient family", () => {
     const result = classifyHttpStatus(500);
-    expect(result.code).toBe("roozy_gateway_upstream_error");
+    expect(result.code).toBe("prism_roozylabs_upstream_error");
     expect(result.family).toBe("transient_upstream");
   });
 
   it("returns upstream_error for 502", () => {
-    expect(classifyHttpStatus(502).code).toBe("roozy_gateway_upstream_error");
+    expect(classifyHttpStatus(502).code).toBe("prism_roozylabs_upstream_error");
   });
 
   it("returns upstream_error for 503", () => {
-    expect(classifyHttpStatus(503).code).toBe("roozy_gateway_upstream_error");
+    expect(classifyHttpStatus(503).code).toBe("prism_roozylabs_upstream_error");
   });
 
   it("returns upstream_error for 504", () => {
-    expect(classifyHttpStatus(504).code).toBe("roozy_gateway_upstream_error");
+    expect(classifyHttpStatus(504).code).toBe("prism_roozylabs_upstream_error");
   });
 });
 
@@ -57,7 +57,7 @@ describe("createGatewayError", () => {
     const err = createGatewayError("test error", 429);
     expect(err.message).toBe("test error");
     expect(err.status).toBe(429);
-    expect(err.code).toBe("roozy_gateway_rate_limited");
+    expect(err.code).toBe("prism_roozylabs_rate_limited");
   });
 
   it("includes body and retryNotBefore", () => {
@@ -88,7 +88,7 @@ describe("errorResult", () => {
     const err = createGatewayError("Invalid API key", 401);
     const result = errorResult(err, (v) => v);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_auth_failed");
+    expect(result.errorCode).toBe("prism_roozylabs_auth_failed");
     expect(result.errorMessage).toContain("Verify apiKey");
   });
 
@@ -100,7 +100,7 @@ describe("errorResult", () => {
 
   it("returns transient for connection failure", () => {
     const err = createGatewayError("ECONNREFUSED");
-    err.code = "roozy_gateway_connect_failed";
+    err.code = "prism_roozylabs_connect_failed";
     const result = errorResult(err, (v) => v);
     expect(result.errorFamily).toBe("transient_upstream");
   });

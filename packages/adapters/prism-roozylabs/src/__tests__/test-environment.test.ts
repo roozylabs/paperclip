@@ -33,14 +33,14 @@ describe("testEnvironment", () => {
     const ctx = createTestCtx({ baseUrl: "" });
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_base_url_missing")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_base_url_missing")).toBe(true);
   });
 
   it("fails when apiKey is missing", async () => {
     const ctx = createTestCtx({ apiKey: "" });
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_api_key_missing")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_api_key_missing")).toBe(true);
   });
 
   it("warns when apiKey doesn't start with gw_sk_", async () => {
@@ -52,7 +52,7 @@ describe("testEnvironment", () => {
 
     const ctx = createTestCtx({ apiKey: "sk-not-a-gateway-key" });
     const result = await testEnvironment(ctx);
-    expect(result.checks.some((c) => c.code === "roozy_gateway_api_key_prefix_warning")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_api_key_prefix_warning")).toBe(true);
   });
 
   it("passes when gateway is reachable and auth valid", async () => {
@@ -68,8 +68,8 @@ describe("testEnvironment", () => {
     const ctx = createTestCtx();
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("pass");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_reachable")).toBe(true);
-    expect(result.checks.some((c) => c.code === "roozy_gateway_model_available")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_reachable")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_model_available")).toBe(true);
   });
 
   it("warns when configured model not in static list", async () => {
@@ -81,7 +81,7 @@ describe("testEnvironment", () => {
 
     const ctx = createTestCtx({ model: "custom-model" });
     const result = await testEnvironment(ctx);
-    expect(result.checks.some((c) => c.code === "roozy_gateway_model_not_in_static_list")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_model_not_in_static_list")).toBe(true);
     expect(result.status).toBe("warn");
   });
 
@@ -96,7 +96,7 @@ describe("testEnvironment", () => {
     const ctx = createTestCtx();
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_auth_failed")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_auth_failed")).toBe(true);
   });
 
   it("fails when gateway is unreachable", async () => {
@@ -107,21 +107,21 @@ describe("testEnvironment", () => {
     const ctx = createTestCtx();
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_unreachable")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_unreachable")).toBe(true);
   });
 
   it("fails for invalid baseUrl", async () => {
     const ctx = createTestCtx({ baseUrl: "not-a-url" });
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_base_url_invalid")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_base_url_invalid")).toBe(true);
   });
 
   it("fails for remote plain HTTP without escape hatch", async () => {
     const ctx = createTestCtx({ baseUrl: "http://example.com:8080" });
     const result = await testEnvironment(ctx);
     expect(result.status).toBe("fail");
-    expect(result.checks.some((c) => c.code === "roozy_gateway_plain_http_denied")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_plain_http_denied")).toBe(true);
   });
 
   it("allows loopback HTTP", async () => {
@@ -133,6 +133,6 @@ describe("testEnvironment", () => {
 
     const ctx = createTestCtx({ baseUrl: "http://127.0.0.1:8080" });
     const result = await testEnvironment(ctx);
-    expect(result.checks.some((c) => c.code === "roozy_gateway_loopback_http_allowed")).toBe(true);
+    expect(result.checks.some((c) => c.code === "prism_roozylabs_loopback_http_allowed")).toBe(true);
   });
 });

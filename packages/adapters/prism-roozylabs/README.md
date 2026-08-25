@@ -1,4 +1,4 @@
-# @roozylabs/paperclip-adapter-gateway
+# @paperclipai/adapter-prism-roozylabs
 
 Paperclip adapter for **Prism RoozyLabs** — a centralized OpenAI-compatible LLM gateway with smart routing (`prism-auto`), credential rotation, retry/fallback, budget control, and multi-provider support.
 
@@ -7,7 +7,7 @@ Paperclip adapter for **Prism RoozyLabs** — a centralized OpenAI-compatible LL
 ```
 Paperclip Agent
        ↓
-roozy_gateway adapter  ← this package
+prism_roozylabs adapter  ← this package
        ↓
 Prism RoozyLabs        ← provider selection happens here
        ↓
@@ -46,13 +46,13 @@ Already included in the Paperclip monorepo. Install as an external adapter:
 curl -X POST http://localhost:3100/api/adapters \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"localPath": "/path/to/paperclip/packages/adapters/roozy-gateway"}'
+  -d '{"localPath": "/path/to/paperclip/packages/adapters/prism-roozylabs"}'
 ```
 
 ### As an npm package (published)
 
 ```bash
-npm install @roozylabs/paperclip-adapter-gateway
+npm install @paperclipai/adapter-prism-roozylabs
 ```
 
 Then register via API or `~/.paperclip/adapter-plugins.json`.
@@ -86,18 +86,18 @@ The adapter captures these from Gateway responses:
 
 | HTTP Status | Error Code | Family | Retry |
 |-------------|-----------|--------|-------|
-| 401/403 | `roozy_gateway_auth_failed` | — | No |
-| 400 | `roozy_gateway_bad_request` | — | No |
-| 404 | `roozy_gateway_model_not_found` | — | No |
-| 429 | `roozy_gateway_rate_limited` | transient | Yes (Retry-After) |
-| 5xx | `roozy_gateway_upstream_error` | transient | No (Gateway retries) |
-| Network | `roozy_gateway_connect_failed` | transient | Yes |
-| Timeout | `roozy_gateway_timeout` | transient | Yes |
+| 401/403 | `prism_roozylabs_auth_failed` | — | No |
+| 400 | `prism_roozylabs_bad_request` | — | No |
+| 404 | `prism_roozylabs_model_not_found` | — | No |
+| 429 | `prism_roozylabs_rate_limited` | transient | Yes (Retry-After) |
+| 5xx | `prism_roozylabs_upstream_error` | transient | No (Gateway retries) |
+| Network | `prism_roozylabs_connect_failed` | transient | Yes |
+| Timeout | `prism_roozylabs_timeout` | transient | Yes |
 
 ## Testing
 
 ```bash
-cd packages/adapters/roozy-gateway
+cd packages/adapters/prism-roozylabs
 pnpm test
 ```
 

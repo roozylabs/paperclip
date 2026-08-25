@@ -1,20 +1,21 @@
 import type { AdapterExecutionResult } from "@paperclipai/adapter-utils";
 
 export type GatewayErrorCode =
-  | "roozy_gateway_base_url_missing"
-  | "roozy_gateway_base_url_invalid"
-  | "roozy_gateway_api_key_missing"
-  | "roozy_gateway_auth_failed"
-  | "roozy_gateway_forbidden"
-  | "roozy_gateway_bad_request"
-  | "roozy_gateway_model_not_found"
-  | "roozy_gateway_rate_limited"
-  | "roozy_gateway_upstream_error"
-  | "roozy_gateway_timeout"
-  | "roozy_gateway_connect_failed"
-  | "roozy_gateway_protocol_error"
-  | "roozy_gateway_tool_calls_unsupported"
-  | "roozy_gateway_plain_http_denied";
+  | "prism_roozylabs_base_url_missing"
+  | "prism_roozylabs_base_url_invalid"
+  | "prism_roozylabs_api_key_missing"
+  | "prism_roozylabs_auth_failed"
+  | "prism_roozylabs_forbidden"
+  | "prism_roozylabs_bad_request"
+  | "prism_roozylabs_model_not_found"
+  | "prism_roozylabs_rate_limited"
+  | "prism_roozylabs_upstream_error"
+  | "prism_roozylabs_timeout"
+  | "prism_roozylabs_connect_failed"
+  | "prism_roozylabs_protocol_error"
+  | "prism_roozylabs_tool_calls_unsupported"
+  | "prism_roozylabs_plain_http_denied"
+  | (string & {});
 
 export interface GatewayHttpError extends Error {
   status?: number;
@@ -27,22 +28,22 @@ export function classifyHttpStatus(
   status: number,
 ): { code: GatewayErrorCode; family: AdapterExecutionResult["errorFamily"] } {
   if (status === 401 || status === 403)
-    return { code: "roozy_gateway_auth_failed", family: null };
+    return { code: "prism_roozylabs_auth_failed", family: null };
   if (status === 404)
-    return { code: "roozy_gateway_model_not_found", family: null };
+    return { code: "prism_roozylabs_model_not_found", family: null };
   if (status === 429)
     return {
-      code: "roozy_gateway_rate_limited",
+      code: "prism_roozylabs_rate_limited",
       family: "transient_upstream",
     };
   if (status >= 500)
     return {
-      code: "roozy_gateway_upstream_error",
+      code: "prism_roozylabs_upstream_error",
       family: "transient_upstream",
     };
   if (status === 400)
-    return { code: "roozy_gateway_bad_request", family: null };
-  return { code: "roozy_gateway_upstream_error", family: null };
+    return { code: "prism_roozylabs_bad_request", family: null };
+  return { code: "prism_roozylabs_upstream_error", family: null };
 }
 
 export function createGatewayError(
@@ -83,10 +84,10 @@ export function errorResult(
   redactText: (v: string) => string = (v) => v,
 ): AdapterExecutionResult {
   const gwErr = err as GatewayHttpError;
-  const code = gwErr.code ?? "roozy_gateway_protocol_error";
+  const code = gwErr.code ?? "prism_roozylabs_protocol_error";
   const classified = gwErr.status ? classifyHttpStatus(gwErr.status) : null;
   const errorMessage =
-    code === "roozy_gateway_auth_failed"
+    code === "prism_roozylabs_auth_failed"
       ? `${redactText(err instanceof Error ? err.message : String(err))}. Verify apiKey matches your Prism Gateway key (gw_sk_prism_...).`
       : redactText(err instanceof Error ? err.message : String(err));
   return {
@@ -96,7 +97,7 @@ export function errorResult(
     errorCode: code,
     errorFamily:
       classified?.family ??
-      (code === "roozy_gateway_connect_failed" ? "transient_upstream" : null),
+      (code === "prism_roozylabs_connect_failed" ? "transient_upstream" : null),
     retryNotBefore: gwErr.retryNotBefore ?? null,
     errorMessage,
     errorMeta: {

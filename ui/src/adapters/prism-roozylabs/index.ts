@@ -1,11 +1,11 @@
 import type { UIAdapterModule } from "../types";
-import { parseRoozyGatewayStdoutLine, buildRoozyGatewayConfig } from "@paperclipai/adapter-prism-roozylabs/ui";
+import { parsePrismRoozyLabsStdoutLine, buildPrismRoozyLabsConfig } from "@paperclipai/adapter-prism-roozylabs/ui";
 import { PrismRoozyLabsConfigFields } from "./config-fields";
 
 export const prismRoozyLabsUIAdapter: UIAdapterModule = {
   type: "prism_roozylabs",
   label: "Prism RoozyLabs",
-  parseStdoutLine: parseRoozyGatewayStdoutLine,
+  parseStdoutLine: parsePrismRoozyLabsStdoutLine,
   ConfigFields: PrismRoozyLabsConfigFields,
-  buildAdapterConfig: buildRoozyGatewayConfig,
+  buildAdapterConfig: buildPrismRoozyLabsConfig,
 };

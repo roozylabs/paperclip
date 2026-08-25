@@ -1,5 +1,5 @@
 /**
- * Self-contained UI transcript parser for the Roozy AI Gateway adapter.
+ * Self-contained UI transcript parser for the Prism RoozyLabs adapter.
  * Zero imports — runs in a browser sandbox via URL.createObjectURL + dynamic import().
  *
  * Contract version: 1.0.0
@@ -17,7 +17,7 @@ export function parseStdoutLine(line: string, ts: string): Array<Record<string, 
   if (!trimmed) return [];
 
   const responseMatch = trimmed.match(
-    /^\[roozy-gateway:response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
   );
   if (responseMatch) {
     return [
@@ -31,7 +31,7 @@ export function parseStdoutLine(line: string, ts: string): Array<Record<string, 
   }
 
   const resultMatch = trimmed.match(
-    /^\[roozy-gateway:result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
   );
   if (resultMatch) {
     return [
@@ -51,7 +51,7 @@ export function parseStdoutLine(line: string, ts: string): Array<Record<string, 
   }
 
   const requestMatch = trimmed.match(
-    /^\[roozy-gateway:request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
   );
   if (requestMatch) {
     return [
@@ -63,8 +63,12 @@ export function parseStdoutLine(line: string, ts: string): Array<Record<string, 
     ];
   }
 
-  if (trimmed.startsWith("[roozy-gateway]")) {
-    var inner = trimmed.replace(/^\[roozy-gateway\]\s*/, "");
+  if (
+    trimmed.startsWith("[roozy-gateway]") ||
+    trimmed.startsWith("[prism-roozylabs]") ||
+    trimmed.startsWith("[prism-gateway]")
+  ) {
+    var inner = trimmed.replace(/^\[(?:roozy-gateway|prism-roozylabs|prism-gateway)\]\s*/, "");
     return [{ kind: "system", ts: ts, text: inner }];
   }
 

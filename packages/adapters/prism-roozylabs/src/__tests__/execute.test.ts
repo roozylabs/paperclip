@@ -54,28 +54,28 @@ describe("execute - config validation", () => {
     const ctx = createMockCtx({ baseUrl: "" });
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_base_url_missing");
+    expect(result.errorCode).toBe("prism_roozylabs_base_url_missing");
   });
 
   it("returns error when baseUrl is invalid", async () => {
     const ctx = createMockCtx({ baseUrl: "not-a-url" });
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_base_url_invalid");
+    expect(result.errorCode).toBe("prism_roozylabs_base_url_invalid");
   });
 
   it("returns error when apiKey is missing", async () => {
     const ctx = createMockCtx({ apiKey: "" });
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_api_key_missing");
+    expect(result.errorCode).toBe("prism_roozylabs_api_key_missing");
   });
 
   it("returns error for remote plain HTTP without escape hatch", async () => {
     const ctx = createMockCtx({ baseUrl: "http://example.com:8080" });
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_plain_http_denied");
+    expect(result.errorCode).toBe("prism_roozylabs_plain_http_denied");
   });
 
   it("allows loopback HTTP", async () => {
@@ -258,7 +258,7 @@ describe("execute - error handling", () => {
     const ctx = createMockCtx();
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_auth_failed");
+    expect(result.errorCode).toBe("prism_roozylabs_auth_failed");
     expect(result.errorMessage).toContain("Invalid API key");
   });
 
@@ -282,7 +282,7 @@ describe("execute - error handling", () => {
     const ctx = createMockCtx();
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_rate_limited");
+    expect(result.errorCode).toBe("prism_roozylabs_rate_limited");
     expect(result.errorFamily).toBe("transient_upstream");
     expect(result.retryNotBefore).toBe("30");
   });
@@ -313,7 +313,7 @@ describe("execute - error handling", () => {
     const ctx = createMockCtx();
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
-    expect(result.errorCode).toBe("roozy_gateway_connect_failed");
+    expect(result.errorCode).toBe("prism_roozylabs_connect_failed");
     expect(result.errorFamily).toBe("transient_upstream");
   });
 
@@ -328,7 +328,7 @@ describe("execute - error handling", () => {
     const result = await execute(ctx);
     expect(result.exitCode).toBe(1);
     expect(result.timedOut).toBe(true);
-    expect(result.errorCode).toBe("roozy_gateway_timeout");
+    expect(result.errorCode).toBe("prism_roozylabs_timeout");
   });
 });
 
@@ -394,7 +394,7 @@ describe("execute - tool calls detection", () => {
     const ctx = createMockCtx({ stream: "false" });
     const result = await execute(ctx);
     expect(result.exitCode).toBe(0);
-    expect(result.errorCode).toBe("roozy_gateway_tool_calls_unsupported");
+    expect(result.errorCode).toBe("prism_roozylabs_tool_calls_unsupported");
     expect(result.resultJson).toMatchObject({ has_tool_calls: true });
   });
 });

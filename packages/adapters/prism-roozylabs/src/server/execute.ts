@@ -289,7 +289,7 @@ async function handleStreamingResponse(
     if (chunk.error) {
       ctx.onLog(
         "stderr",
-        `[roozy-gateway] upstream error: ${chunk.error.message}\n`,
+        `[prism-roozylabs] upstream error: ${chunk.error.message}\n`,
       );
       return;
     }
@@ -308,7 +308,7 @@ async function handleStreamingResponse(
           hasToolCalls = true;
           ctx.onLog(
             "stdout",
-            `\n[roozy-gateway] tool_calls detected (unsupported in Phase 1): ${stringifyForLog(delta.tool_calls, 1_000)}\n`,
+            `\n[prism-roozylabs] tool_calls detected (unsupported in Phase 1): ${stringifyForLog(delta.tool_calls, 1_000)}\n`,
           );
         }
         if (choice.finish_reason) {
@@ -400,7 +400,7 @@ export async function execute(
       exitCode: 1,
       signal: null,
       timedOut: false,
-      errorCode: "roozy_gateway_base_url_missing",
+      errorCode: "prism_roozylabs_base_url_missing",
       errorMessage: "Prism RoozyLabs adapter requires a baseUrl.",
     };
   }
@@ -410,7 +410,7 @@ export async function execute(
       exitCode: 1,
       signal: null,
       timedOut: false,
-      errorCode: "roozy_gateway_base_url_invalid",
+      errorCode: "prism_roozylabs_base_url_invalid",
       errorMessage: `Invalid Gateway baseUrl: ${baseUrlRaw}`,
     };
   }
@@ -419,7 +419,7 @@ export async function execute(
       exitCode: 1,
       signal: null,
       timedOut: false,
-      errorCode: "roozy_gateway_plain_http_denied",
+      errorCode: "prism_roozylabs_plain_http_denied",
       errorMessage: remotePlainHttpDeniedMessage(baseUrl.hostname),
     };
   }
@@ -430,7 +430,7 @@ export async function execute(
       exitCode: 1,
       signal: null,
       timedOut: false,
-      errorCode: "roozy_gateway_api_key_missing",
+      errorCode: "prism_roozylabs_api_key_missing",
       errorMessage: "Prism RoozyLabs adapter requires an apiKey (gw_sk_prism_...).",
     };
   }
@@ -444,7 +444,7 @@ export async function execute(
   const chatUrl = apiUrl(baseUrl, "/v1/chat/completions");
 
   await onMeta?.({
-    adapterType: "roozy_gateway",
+    adapterType: "prism_roozylabs",
     command: "POST /v1/chat/completions",
     commandArgs: [chatUrl],
     context: {
@@ -457,7 +457,7 @@ export async function execute(
   });
   await onLog(
     "stdout",
-    `[roozy-gateway] connecting to ${redactText(baseUrl.toString())} (model=${model}, stream=${stream})\n`,
+    `[prism-roozylabs] connecting to ${redactText(baseUrl.toString())} (model=${model}, stream=${stream})\n`,
   );
 
   const body = buildRequestBody(ctx, model, stream);
@@ -489,9 +489,9 @@ export async function execute(
           exitCode: 1,
           signal: null,
           timedOut: true,
-          errorCode: "roozy_gateway_timeout",
+          errorCode: "prism_roozylabs_timeout",
           errorMessage: `Gateway request timed out after ${timeoutSec}s.`,
-          provider: "roozy_gateway",
+          provider: "prism_roozylabs",
           model,
           resultJson: { url: chatUrl, model, stream },
         };
@@ -501,7 +501,7 @@ export async function execute(
         undefined,
         undefined,
       );
-      gwErr.code = "roozy_gateway_connect_failed";
+      gwErr.code = "prism_roozylabs_connect_failed";
       return errorResult(
         gwErr,
         redactText,
@@ -529,7 +529,7 @@ export async function execute(
         errorFamily: classified.family,
         retryNotBefore: response.headers.get("Retry-After"),
         errorMessage: redactText(errorMessage),
-        provider: "roozy_gateway",
+        provider: "prism_roozylabs",
         model,
         resultJson: {
           url: chatUrl,
@@ -541,7 +541,7 @@ export async function execute(
 
     await onLog(
       "stdout",
-      `[roozy-gateway:request] POST /v1/chat/completions model=${model}\n`,
+      `[prism-roozylabs:request] POST /v1/chat/completions model=${model}\n`,
     );
 
     if (stream) {
@@ -557,7 +557,7 @@ export async function execute(
       if (requestId) {
         await onLog(
           "stdout",
-          `[roozy-gateway:response] model=${gatewayModel ?? model} provider=${gatewayProvider ?? "unknown"} request_id=${requestId}\n`,
+          `[prism-roozylabs:response] model=${gatewayModel ?? model} provider=${gatewayProvider ?? "unknown"} request_id=${requestId}\n`,
         );
       }
 
@@ -569,12 +569,12 @@ export async function execute(
         exitCode = 0;
         errorMessage =
           "Tool calls returned by the model. Tool execution is not supported in Phase 1 (stateless LLM adapter).";
-        errorCode = "roozy_gateway_tool_calls_unsupported";
+        errorCode = "prism_roozylabs_tool_calls_unsupported";
       }
 
       await onLog(
         "stdout",
-        `\n[roozy-gateway:result] exit=${exitCode} tokens_in=${result.usage?.inputTokens ?? 0} tokens_out=${result.usage?.outputTokens ?? 0}\n`,
+        `\n[prism-roozylabs:result] exit=${exitCode} tokens_in=${result.usage?.inputTokens ?? 0} tokens_out=${result.usage?.outputTokens ?? 0}\n`,
       );
 
       return {
@@ -584,7 +584,7 @@ export async function execute(
         ...(errorMessage ? { errorMessage } : {}),
         ...(errorCode ? { errorCode } : {}),
         usage: result.usage,
-        provider: gatewayProvider ?? "roozy_gateway",
+        provider: gatewayProvider ?? "prism_roozylabs",
         model: gatewayModel ?? model,
         summary: result.text.slice(0, 2_000) || null,
         resultJson: {
@@ -610,7 +610,7 @@ export async function execute(
     if (requestId) {
       await onLog(
         "stdout",
-        `[roozy-gateway:response] model=${gatewayModel ?? model} provider=${gatewayProvider ?? "unknown"} request_id=${requestId}\n`,
+        `[prism-roozylabs:response] model=${gatewayModel ?? model} provider=${gatewayProvider ?? "unknown"} request_id=${requestId}\n`,
       );
     }
 
@@ -621,12 +621,12 @@ export async function execute(
     if (result.hasToolCalls) {
       errorMessage =
         "Tool calls returned by the model. Tool execution is not supported in Phase 1 (stateless LLM adapter).";
-      errorCode = "roozy_gateway_tool_calls_unsupported";
+      errorCode = "prism_roozylabs_tool_calls_unsupported";
     }
 
     await onLog(
       "stdout",
-      `\n[roozy-gateway:result] exit=${exitCode} tokens_in=${result.usage?.inputTokens ?? 0} tokens_out=${result.usage?.outputTokens ?? 0}\n`,
+      `\n[prism-roozylabs:result] exit=${exitCode} tokens_in=${result.usage?.inputTokens ?? 0} tokens_out=${result.usage?.outputTokens ?? 0}\n`,
     );
 
     return {
@@ -636,7 +636,7 @@ export async function execute(
       ...(errorMessage ? { errorMessage } : {}),
       ...(errorCode ? { errorCode } : {}),
       usage: result.usage,
-      provider: gatewayProvider ?? "roozy_gateway",
+      provider: gatewayProvider ?? "prism_roozylabs",
       model: gatewayModel ?? model,
       summary: result.text.slice(0, 2_000) || null,
       resultJson: {

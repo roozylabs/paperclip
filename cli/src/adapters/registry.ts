@@ -12,7 +12,7 @@ import { printOpenCodeStreamEvent } from "@paperclipai/adapter-opencode-local/cl
 import { printOpenCodeZenStreamEvent } from "@paperclipai/adapter-opencode-zen/cli";
 import { printPiStreamEvent } from "@paperclipai/adapter-pi-local/cli";
 import { printOpenClawGatewayStreamEvent } from "@paperclipai/adapter-openclaw-gateway/cli";
-import { printRoozyGatewayStreamEvent as printPrismRoozyLabsStreamEvent } from "@paperclipai/adapter-prism-roozylabs/cli";
+import { printPrismRoozyLabsStreamEvent } from "@paperclipai/adapter-prism-roozylabs/cli";
 import { processCLIAdapter } from "./process/index.js";
 import { httpCLIAdapter } from "./http/index.js";
 

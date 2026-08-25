@@ -1,12 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { parseRoozyGatewayStdoutLine } from "../ui/parse-stdout.js";
+import { parsePrismRoozyLabsStdoutLine } from "../ui/parse-stdout.js";
 
-describe("parseRoozyGatewayStdoutLine", () => {
+describe("parsePrismRoozyLabsStdoutLine", () => {
   const ts = "2025-01-01T00:00:00.000Z";
 
-  it("parses [roozy-gateway:response] into init entry", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway:response] model=claude-sonnet-4-20250514 provider=anthropic request_id=abc-123",
+  it("parses [prism-roozylabs:response] into init entry", () => {
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs:response] model=claude-sonnet-4-20250514 provider=anthropic request_id=abc-123",
       ts,
     );
     expect(entries).toHaveLength(1);
@@ -17,9 +17,9 @@ describe("parseRoozyGatewayStdoutLine", () => {
     }
   });
 
-  it("parses [roozy-gateway:result] into result entry", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway:result] exit=0 tokens_in=100 tokens_out=50",
+  it("parses [prism-roozylabs:result] into result entry", () => {
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs:result] exit=0 tokens_in=100 tokens_out=50",
       ts,
     );
     expect(entries).toHaveLength(1);
@@ -32,8 +32,8 @@ describe("parseRoozyGatewayStdoutLine", () => {
   });
 
   it("parses error result with exit=1", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway:result] exit=1 tokens_in=0 tokens_out=0",
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs:result] exit=1 tokens_in=0 tokens_out=0",
       ts,
     );
     expect(entries[0].kind).toBe("result");
@@ -43,18 +43,18 @@ describe("parseRoozyGatewayStdoutLine", () => {
     }
   });
 
-  it("parses [roozy-gateway:request] into system entry", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway:request] POST /v1/chat/completions model=roozy-auto",
+  it("parses [prism-roozylabs:request] into system entry", () => {
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs:request] POST /v1/chat/completions model=prism-auto",
       ts,
     );
     expect(entries).toHaveLength(1);
     expect(entries[0].kind).toBe("system");
   });
 
-  it("parses [roozy-gateway] connecting line into system", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway] connecting to http://localhost:8080 (model=roozy-auto, stream=true)",
+  it("parses [prism-roozylabs] connecting line into system", () => {
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs] connecting to http://localhost:8080 (model=prism-auto, stream=true)",
       ts,
     );
     expect(entries).toHaveLength(1);
@@ -62,8 +62,8 @@ describe("parseRoozyGatewayStdoutLine", () => {
   });
 
   it("parses tool_calls warning into system entry", () => {
-    const entries = parseRoozyGatewayStdoutLine(
-      "[roozy-gateway] tool_calls detected (unsupported in Phase 1): []",
+    const entries = parsePrismRoozyLabsStdoutLine(
+      "[prism-roozylabs] tool_calls detected (unsupported in Phase 1): []",
       ts,
     );
     expect(entries).toHaveLength(1);
@@ -71,18 +71,18 @@ describe("parseRoozyGatewayStdoutLine", () => {
   });
 
   it("passes through plain text as stdout", () => {
-    const entries = parseRoozyGatewayStdoutLine("Hello, world!", ts);
+    const entries = parsePrismRoozyLabsStdoutLine("Hello, world!", ts);
     expect(entries).toHaveLength(1);
     expect(entries[0].kind).toBe("stdout");
   });
 
   it("returns empty array for empty input", () => {
-    expect(parseRoozyGatewayStdoutLine("", ts)).toEqual([]);
-    expect(parseRoozyGatewayStdoutLine("   ", ts)).toEqual([]);
+    expect(parsePrismRoozyLabsStdoutLine("", ts)).toEqual([]);
+    expect(parsePrismRoozyLabsStdoutLine("   ", ts)).toEqual([]);
   });
 
   it("strips ANSI escape sequences", () => {
-    const entries = parseRoozyGatewayStdoutLine(
+    const entries = parsePrismRoozyLabsStdoutLine(
       "\u001B[32m[some color]\u001B[0m normal text",
       ts,
     );

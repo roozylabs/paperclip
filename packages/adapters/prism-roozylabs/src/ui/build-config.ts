@@ -6,7 +6,7 @@ import {
   DEFAULT_STREAM,
 } from "../shared/constants.js";
 
-export function buildRoozyGatewayConfig(
+export function buildPrismRoozyLabsConfig(
   values: CreateConfigValues,
 ): Record<string, unknown> {
   const v = values as unknown as Record<string, unknown>;

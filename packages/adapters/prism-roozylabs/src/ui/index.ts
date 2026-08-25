@@ -1,14 +1,20 @@
 import type { TranscriptEntry } from "@paperclipai/adapter-utils";
-import { parseRoozyGatewayStdoutLine } from "./parse-stdout.js";
-import { buildRoozyGatewayConfig } from "./build-config.js";
+import { parsePrismRoozyLabsStdoutLine } from "./parse-stdout.js";
+import { buildPrismRoozyLabsConfig } from "./build-config.js";
 
-export const roozyGatewayUIAdapter = {
-  type: "roozy_gateway" as const,
+export const prismRoozyLabsUIAdapter = {
+  type: "prism_roozylabs" as const,
   label: "Prism RoozyLabs",
-  parseStdoutLine: parseRoozyGatewayStdoutLine,
-  buildAdapterConfig: buildRoozyGatewayConfig,
+  parseStdoutLine: parsePrismRoozyLabsStdoutLine,
+  buildAdapterConfig: buildPrismRoozyLabsConfig,
 };
 
-export { parseRoozyGatewayStdoutLine, buildRoozyGatewayConfig };
+export {
+  parsePrismRoozyLabsStdoutLine,
+  buildPrismRoozyLabsConfig,
+  // Backward compatibility exports
+  parsePrismRoozyLabsStdoutLine as parseRoozyGatewayStdoutLine,
+  buildPrismRoozyLabsConfig as buildRoozyGatewayConfig,
+};
 
 export type { TranscriptEntry };

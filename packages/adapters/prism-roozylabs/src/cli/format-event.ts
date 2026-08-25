@@ -1,15 +1,15 @@
 import pc from "picocolors";
-import { parseRoozyGatewayStdoutLine } from "../ui/parse-stdout.js";
+import { parsePrismRoozyLabsStdoutLine } from "../ui/parse-stdout.js";
 
-export function printRoozyGatewayStreamEvent(
+export function printPrismRoozyLabsStreamEvent(
   raw: string,
   debug: boolean,
 ): void {
-  const entries = parseRoozyGatewayStdoutLine(raw, new Date().toISOString());
+  const entries = parsePrismRoozyLabsStdoutLine(raw, new Date().toISOString());
   for (const entry of entries) {
     switch (entry.kind) {
       case "init":
-        console.log(pc.cyan(`[roozy] model=${entry.model}`));
+        console.log(pc.cyan(`[prism] model=${entry.model}`));
         break;
       case "system":
         console.log(pc.dim(entry.text));
@@ -36,9 +36,11 @@ export function printRoozyGatewayStreamEvent(
         break;
       default:
         if (debug) {
-          console.log(pc.dim(`[roozy:${entry.kind}] ${JSON.stringify(entry)}`));
+          console.log(pc.dim(`[prism:${entry.kind}] ${JSON.stringify(entry)}`));
         }
         break;
     }
   }
 }
+
+export { printPrismRoozyLabsStreamEvent as printRoozyGatewayStreamEvent };

@@ -24,7 +24,7 @@ function asString(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
 
-export function parseRoozyGatewayStdoutLine(
+export function parsePrismRoozyLabsStdoutLine(
   line: string,
   ts: string,
 ): TranscriptEntry[] {
@@ -33,7 +33,7 @@ export function parseRoozyGatewayStdoutLine(
   if (!trimmed) return [];
 
   const responseMatch = trimmed.match(
-    /^\[(?:roozy|prism)-gateway:response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
   );
   if (responseMatch) {
     return [
@@ -47,7 +47,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const resultMatch = trimmed.match(
-    /^\[(?:roozy|prism)-gateway:result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
   );
   if (resultMatch) {
     return [
@@ -67,7 +67,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const requestMatch = trimmed.match(
-    /^\[(?:roozy|prism)-gateway:request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway):request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
   );
   if (requestMatch) {
     return [
@@ -80,7 +80,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const toolCallsMatch = trimmed.match(
-    /^\[(?:roozy|prism)-gateway\]\s+tool_calls detected.*$/s,
+    /^\[(?:roozy-gateway|prism-roozylabs|prism-gateway)\]\s+tool_calls detected.*$/s,
   );
   if (toolCallsMatch) {
     return [
@@ -92,8 +92,12 @@ export function parseRoozyGatewayStdoutLine(
     ];
   }
 
-  if (trimmed.startsWith("[roozy-gateway]") || trimmed.startsWith("[prism-gateway]")) {
-    const inner = trimmed.replace(/^\[(?:roozy|prism)-gateway\]\s*/, "");
+  if (
+    trimmed.startsWith("[roozy-gateway]") ||
+    trimmed.startsWith("[prism-roozylabs]") ||
+    trimmed.startsWith("[prism-gateway]")
+  ) {
+    const inner = trimmed.replace(/^\[(?:roozy-gateway|prism-roozylabs|prism-gateway)\]\s*/, "");
     return [{ kind: "system", ts, text: inner }];
   }
 

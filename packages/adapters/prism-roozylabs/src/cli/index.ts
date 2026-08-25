@@ -1,6 +1,8 @@
-import { printRoozyGatewayStreamEvent } from "./format-event.js";
+import { printPrismRoozyLabsStreamEvent } from "./format-event.js";
 
-export const roozyGatewayCLIAdapter = {
-  type: "roozy_gateway" as const,
-  formatStdoutEvent: printRoozyGatewayStreamEvent,
+export const prismRoozyLabsCLIAdapter = {
+  type: "prism_roozylabs" as const,
+  formatStdoutEvent: printPrismRoozyLabsStreamEvent,
 };
+
+export { printPrismRoozyLabsStreamEvent };
