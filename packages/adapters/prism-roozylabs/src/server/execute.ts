@@ -129,6 +129,7 @@ function buildInput(ctx: AdapterExecutionContext): string {
     "- Take concrete action in this run when the task is actionable.",
     "- Do not stop at a plan unless the issue asks for planning only.",
     "- Leave durable progress and update the issue to a clear final disposition.",
+    "- IMPORTANT: Tool calls and XML tags (such as <tool_call> or <function>) cannot be executed by this stateless adapter. Do NOT output <tool_call> XML tags. Write your response, updates, and findings directly in plain Markdown text.",
     "",
     wakePrompt,
     ...(taskMarkdown ? ["", taskMarkdown] : []),
@@ -167,7 +168,7 @@ function buildMessages(
         `Company ID: ${ctx.agent.companyId}`,
         `Run ID: ${ctx.runId}`,
         "",
-        "Produce your complete response as the final answer in this message.",
+        "Produce your complete response as the final Markdown answer in this message. Do NOT use <tool_call> or <function> XML tags as tool execution is unavailable.",
       ].join("\n");
 
   return [
@@ -318,13 +319,18 @@ async function handleStreamingResponse(
     }
   }
 
+  const textHasXmlToolCalls =
+    text.includes("<tool_call>") ||
+    text.includes("</tool_call>") ||
+    text.includes("<function=");
+
   return {
     text,
     usage,
     model,
     provider,
     requestId,
-    hasToolCalls,
+    hasToolCalls: hasToolCalls || textHasXmlToolCalls,
     finishReason,
   };
 }
@@ -359,9 +365,13 @@ async function handleNonStreamingResponse(
 
   const choice = body.choices?.[0];
   const text = choice ? extractTextFromChoice(choice) ?? "" : "";
-  const hasToolCalls = Boolean(
-    choice?.message?.tool_calls && choice.message.tool_calls.length > 0,
-  );
+  const hasToolCalls =
+    Boolean(
+      choice?.message?.tool_calls && choice.message.tool_calls.length > 0,
+    ) ||
+    text.includes("<tool_call>") ||
+    text.includes("</tool_call>") ||
+    text.includes("<function=");
   const usage = extractUsage(body);
   const model =
     response.headers.get("X-Prism-Model") ??
