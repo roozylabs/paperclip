@@ -1,7 +1,7 @@
 {
-  "name": "@paperclipai/adapter-roozy-gateway",
+  "name": "@paperclipai/adapter-prism-roozylabs",
   "version": "0.1.0",
-  "description": "Paperclip adapter for RoozyLabs AI Gateway (OpenAI-compatible LLM gateway with smart routing)",
+  "description": "Paperclip adapter for Prism RoozyLabs (OpenAI-compatible LLM gateway with smart routing)",
   "type": "module",
   "license": "MIT",
   "author": "RoozyLabs",
@@ -13,7 +13,8 @@
     "paperclip",
     "paperclip-adapter",
     "roozylabs",
-    "ai-gateway",
+    "prism",
+    "prism-roozylabs",
     "llm-gateway",
     "adapter"
   ],

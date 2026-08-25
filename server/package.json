@@ -56,7 +56,7 @@
     "@paperclipai/adapter-opencode-local": "workspace:*",
     "@paperclipai/adapter-opencode-zen": "workspace:*",
     "@paperclipai/adapter-pi-local": "workspace:*",
-    "@paperclipai/adapter-roozy-gateway": "workspace:*",
+    "@paperclipai/adapter-prism-roozylabs": "workspace:*",
     "@paperclipai/adapter-utils": "workspace:*",
     "@paperclipai/db": "workspace:*",
     "@paperclipai/plugin-sdk": "workspace:*",

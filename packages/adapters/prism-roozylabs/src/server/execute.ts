@@ -248,9 +248,13 @@ async function handleStreamingResponse(
   let hasToolCalls = false;
   let finishReason: string | null = null;
   const model =
-    response.headers.get("X-Roozy-Model") ?? null;
+    response.headers.get("X-Prism-Model") ??
+    response.headers.get("X-Roozy-Model") ??
+    null;
   const provider =
-    response.headers.get("X-Roozy-Provider") ?? null;
+    response.headers.get("X-Prism-Provider") ??
+    response.headers.get("X-Roozy-Provider") ??
+    null;
   const requestId =
     response.headers.get("X-Request-ID") ?? null;
 
@@ -360,9 +364,14 @@ async function handleNonStreamingResponse(
   );
   const usage = extractUsage(body);
   const model =
-    response.headers.get("X-Roozy-Model") ?? body.model ?? null;
+    response.headers.get("X-Prism-Model") ??
+    response.headers.get("X-Roozy-Model") ??
+    body.model ??
+    null;
   const provider =
-    response.headers.get("X-Roozy-Provider") ?? null;
+    response.headers.get("X-Prism-Provider") ??
+    response.headers.get("X-Roozy-Provider") ??
+    null;
   const requestId =
     response.headers.get("X-Request-ID") ?? null;
 
@@ -392,7 +401,7 @@ export async function execute(
       signal: null,
       timedOut: false,
       errorCode: "roozy_gateway_base_url_missing",
-      errorMessage: "Roozy AI Gateway adapter requires a baseUrl.",
+      errorMessage: "Prism RoozyLabs adapter requires a baseUrl.",
     };
   }
   const baseUrl = normalizeBaseUrl(baseUrlRaw);
@@ -422,7 +431,7 @@ export async function execute(
       signal: null,
       timedOut: false,
       errorCode: "roozy_gateway_api_key_missing",
-      errorMessage: "Roozy AI Gateway adapter requires an apiKey (gw_sk_...).",
+      errorMessage: "Prism RoozyLabs adapter requires an apiKey (gw_sk_prism_...).",
     };
   }
 

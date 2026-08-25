@@ -15,14 +15,14 @@ export function getConfigSchema(): AdapterConfigSchema {
         type: "text",
         required: true,
         default: DEFAULT_BASE_URL,
-        hint: "Roozy AI Gateway base URL, e.g. http://localhost:8080 or https://gateway.example.com",
+        hint: "Prism RoozyLabs base URL, e.g. https://api.prism.roozylabs.com or http://localhost:8080",
       },
       {
         key: "apiKey",
         label: "Gateway API Key",
         type: "text",
         required: true,
-        hint: "Roozy AI Gateway key (gw_sk_...). Stored as a secret.",
+        hint: "Prism Gateway key (gw_sk_prism_...). Stored as a secret.",
         meta: { secret: true },
       },
       {
@@ -30,8 +30,9 @@ export function getConfigSchema(): AdapterConfigSchema {
         label: "Model",
         type: "combobox",
         default: DEFAULT_MODEL,
-        hint: "Model slug. Use roozy-auto for smart routing, or a specific model like gpt-4o or claude-sonnet-4-20250514.",
+        hint: "Model slug. Use prism-auto for smart routing, or a specific model like gpt-4o or claude-3-5-sonnet-20241022.",
         options: [
+          { value: "prism-auto", label: "prism-auto (smart router)" },
           { value: "roozy-auto", label: "roozy-auto (smart router)" },
           { value: "gpt-4o", label: "gpt-4o" },
           { value: "gpt-4o-mini", label: "gpt-4o-mini" },

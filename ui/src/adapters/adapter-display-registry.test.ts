@@ -12,7 +12,7 @@ describe("adapter display registry", () => {
     expect(getAdapterLabel("grok_local")).toBe("Grok Build");
     expect(getAdapterLabel("hermes_local")).toBe("Hermes");
     expect(getAdapterLabel("hermes_gateway")).toBe("Hermes Gateway");
-    expect(getAdapterLabel("roozy_gateway")).toBe("Roozy AI Gateway");
+    expect(getAdapterLabel("prism_roozylabs")).toBe("Prism RoozyLabs");
     expect(getAdapterLabel("opencode_local")).toBe("OpenCode");
     expect(getAdapterLabel("pi_local")).toBe("Pi");
 
@@ -25,7 +25,7 @@ describe("adapter display registry", () => {
       grok_local: "Grok Build",
       hermes_local: "Hermes",
       hermes_gateway: "Hermes Gateway",
-      roozy_gateway: "Roozy AI Gateway",
+      prism_roozylabs: "Prism RoozyLabs",
       opencode_local: "OpenCode",
       pi_local: "Pi",
     });

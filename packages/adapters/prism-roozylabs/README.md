@@ -1,6 +1,6 @@
 # @roozylabs/paperclip-adapter-gateway
 
-Paperclip adapter for the **RoozyLabs AI Gateway** — a centralized OpenAI-compatible LLM gateway with smart routing, credential rotation, retry/fallback, budget control, and multi-provider support.
+Paperclip adapter for **Prism RoozyLabs** — a centralized OpenAI-compatible LLM gateway with smart routing (`prism-auto`), credential rotation, retry/fallback, budget control, and multi-provider support.
 
 ## Architecture
 
@@ -9,12 +9,12 @@ Paperclip Agent
        ↓
 roozy_gateway adapter  ← this package
        ↓
-Roozy AI Gateway       ← provider selection happens here
+Prism RoozyLabs        ← provider selection happens here
        ↓
 Claude / GPT / Gemini / OpenRouter / OpenCode / ...
 ```
 
-**Key principle:** Paperclip selects an agent runtime; Roozy Gateway selects the underlying AI provider/model.
+**Key principle:** Paperclip selects an agent runtime; Prism RoozyLabs selects the underlying AI provider/model.
 
 ## Phase 1 Scope (current)
 
@@ -61,9 +61,9 @@ Then register via API or `~/.paperclip/adapter-plugins.json`.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `baseUrl` | string | `http://localhost:8080` | Gateway URL |
-| `apiKey` | string | (required) | Gateway key (`gw_sk_...`) |
-| `model` | string | `roozy-auto` | Model slug |
+| `baseUrl` | string | `http://localhost:8080` | Gateway URL (e.g. `https://api.prism.roozylabs.com`) |
+| `apiKey` | string | (required) | Gateway key (`gw_sk_prism_...`) |
+| `model` | string | `prism-auto` | Model slug |
 | `stream` | boolean | `true` | Enable streaming |
 | `timeoutSec` | number | `600` | Request timeout |
 | `maxTokens` | number | `0` | Response token cap (0 = model default) |
@@ -72,15 +72,15 @@ Then register via API or `~/.paperclip/adapter-plugins.json`.
 
 ## Model Routing
 
-Use `roozy-auto` for smart routing — the Gateway automatically selects the best provider/model based on task type, complexity, and budget. Or pin to a specific model like `gpt-4o` or `claude-sonnet-4-20250514`.
+Use `prism-auto` for smart routing — Prism RoozyLabs automatically selects the best provider/model based on task type, complexity, and budget. Or pin to a specific model like `gpt-4o` or `claude-3-5-sonnet-20241022`.
 
 ## Response Headers Captured
 
 The adapter captures these from Gateway responses:
 
 - `X-Request-ID` — for debugging request traces
-- `X-Roozy-Model` — actual routed model (may differ from requested)
-- `X-Roozy-Provider` — upstream provider type
+- `X-Prism-Model` (or `X-Roozy-Model`) — actual routed model (may differ from requested)
+- `X-Prism-Provider` (or `X-Roozy-Provider`) — upstream provider type
 
 ## Error Handling
 

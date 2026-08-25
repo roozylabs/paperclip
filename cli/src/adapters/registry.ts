@@ -12,7 +12,7 @@ import { printOpenCodeStreamEvent } from "@paperclipai/adapter-opencode-local/cl
 import { printOpenCodeZenStreamEvent } from "@paperclipai/adapter-opencode-zen/cli";
 import { printPiStreamEvent } from "@paperclipai/adapter-pi-local/cli";
 import { printOpenClawGatewayStreamEvent } from "@paperclipai/adapter-openclaw-gateway/cli";
-import { printRoozyGatewayStreamEvent } from "@paperclipai/adapter-roozy-gateway/cli";
+import { printRoozyGatewayStreamEvent as printPrismRoozyLabsStreamEvent } from "@paperclipai/adapter-prism-roozylabs/cli";
 import { processCLIAdapter } from "./process/index.js";
 import { httpCLIAdapter } from "./http/index.js";
 
@@ -81,9 +81,9 @@ const openclawGatewayCLIAdapter: CLIAdapterModule = {
   formatStdoutEvent: printOpenClawGatewayStreamEvent,
 };
 
-const roozyGatewayCLIAdapter: CLIAdapterModule = {
-  type: "roozy_gateway",
-  formatStdoutEvent: printRoozyGatewayStreamEvent,
+const prismRoozyLabsCLIAdapter: CLIAdapterModule = {
+  type: "prism_roozylabs",
+  formatStdoutEvent: printPrismRoozyLabsStreamEvent,
 };
 
 const adaptersByType = new Map<string, CLIAdapterModule>(
@@ -101,7 +101,7 @@ const adaptersByType = new Map<string, CLIAdapterModule>(
     hermesGatewayCLIAdapter,
     hermesLocalCLIAdapter,
     openclawGatewayCLIAdapter,
-    roozyGatewayCLIAdapter,
+    prismRoozyLabsCLIAdapter,
     processCLIAdapter,
     httpCLIAdapter,
   ].map((a) => [a.type, a]),

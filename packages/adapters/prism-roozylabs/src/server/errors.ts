@@ -87,7 +87,7 @@ export function errorResult(
   const classified = gwErr.status ? classifyHttpStatus(gwErr.status) : null;
   const errorMessage =
     code === "roozy_gateway_auth_failed"
-      ? `${redactText(err instanceof Error ? err.message : String(err))}. Verify apiKey matches your Roozy AI Gateway key (gw_sk_...).`
+      ? `${redactText(err instanceof Error ? err.message : String(err))}. Verify apiKey matches your Prism Gateway key (gw_sk_prism_...).`
       : redactText(err instanceof Error ? err.message : String(err));
   return {
     exitCode: 1,

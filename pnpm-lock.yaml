@@ -85,9 +85,9 @@ importers:
       '@paperclipai/adapter-pi-local':
         specifier: workspace:*
         version: link:../packages/adapters/pi-local
-      '@paperclipai/adapter-roozy-gateway':
+      '@paperclipai/adapter-prism-roozylabs':
         specifier: workspace:*
-        version: link:../packages/adapters/roozy-gateway
+        version: link:../packages/adapters/prism-roozylabs
       '@paperclipai/adapter-utils':
         specifier: workspace:*
         version: link:../packages/adapter-utils
@@ -371,7 +371,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  packages/adapters/roozy-gateway:
+  packages/adapters/prism-roozylabs:
     dependencies:
       '@paperclipai/adapter-utils':
         specifier: workspace:*
@@ -833,9 +833,9 @@ importers:
       '@paperclipai/adapter-pi-local':
         specifier: workspace:*
         version: link:../packages/adapters/pi-local
-      '@paperclipai/adapter-roozy-gateway':
+      '@paperclipai/adapter-prism-roozylabs':
         specifier: workspace:*
-        version: link:../packages/adapters/roozy-gateway
+        version: link:../packages/adapters/prism-roozylabs
       '@paperclipai/adapter-utils':
         specifier: workspace:*
         version: link:../packages/adapter-utils
@@ -1014,9 +1014,9 @@ importers:
       '@paperclipai/adapter-pi-local':
         specifier: workspace:*
         version: link:../packages/adapters/pi-local
-      '@paperclipai/adapter-roozy-gateway':
+      '@paperclipai/adapter-prism-roozylabs':
         specifier: workspace:*
-        version: link:../packages/adapters/roozy-gateway
+        version: link:../packages/adapters/prism-roozylabs
       '@paperclipai/adapter-utils':
         specifier: workspace:*
         version: link:../packages/adapter-utils

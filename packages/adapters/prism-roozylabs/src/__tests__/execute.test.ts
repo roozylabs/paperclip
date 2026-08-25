@@ -11,7 +11,7 @@ function createMockCtx(
       id: "agent-test-001",
       companyId: "company-test-001",
       name: "Test Agent",
-      adapterType: "roozy_gateway",
+      adapterType: "prism_roozylabs",
       adapterConfig: {},
     },
     runtime: {
@@ -22,8 +22,8 @@ function createMockCtx(
     },
     config: {
       baseUrl: "http://localhost:8080",
-      apiKey: "gw_sk_test12345678901234567890123456789012345678",
-      model: "roozy-auto",
+      apiKey: "gw_sk_prism_test12345678901234567890123456789012345678",
+      model: "prism-auto",
       stream: "true",
       timeoutSec: 30,
       ...overrides,
@@ -430,7 +430,7 @@ describe("execute - request body", () => {
     await execute(ctx);
 
     expect(capturedInit?.headers).toMatchObject({
-      Authorization: "Bearer gw_sk_test12345678901234567890123456789012345678",
+      Authorization: "Bearer gw_sk_prism_test12345678901234567890123456789012345678",
       "Content-Type": "application/json",
     });
   });
@@ -442,7 +442,7 @@ describe("execute - request body", () => {
       return {
         ok: true,
         headers: new Map([
-          ["X-Roozy-Model", "roozy-auto"],
+          ["X-Prism-Model", "prism-auto"],
           ["X-Request-ID", "req-stream"],
         ]),
         body: {
@@ -462,6 +462,6 @@ describe("execute - request body", () => {
     const parsed = JSON.parse(capturedBody!);
     expect(parsed.stream).toBe(true);
     expect(parsed.stream_options).toEqual({ include_usage: true });
-    expect(parsed.model).toBe("roozy-auto");
+    expect(parsed.model).toBe("prism-auto");
   });
 });

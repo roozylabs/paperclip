@@ -135,9 +135,9 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     disabledLabel: "Invite external agents from the add-agent modal",
     hideFromVisualSelection: true,
   },
-  roozy_gateway: {
-    label: "Roozy AI Gateway",
-    description: "RoozyLabs AI Gateway harness",
+  prism_roozylabs: {
+    label: "Prism RoozyLabs",
+    description: "Prism RoozyLabs AI Gateway harness",
     icon: Bot,
   },
   process: {

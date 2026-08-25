@@ -68,8 +68,8 @@ export async function testEnvironment(
     checks.push({
       code: "roozy_gateway_base_url_missing",
       level: "error",
-      message: "Roozy AI Gateway requires a baseUrl.",
-      hint: "Set the Gateway URL, for example http://localhost:8080.",
+      message: "Prism RoozyLabs requires a baseUrl.",
+      hint: "Set the Gateway URL, for example https://api.prism.roozylabs.com or http://localhost:8080.",
     });
   }
 
@@ -86,14 +86,14 @@ export async function testEnvironment(
     checks.push({
       code: "roozy_gateway_api_key_missing",
       level: "error",
-      message: "Roozy AI Gateway requires an apiKey.",
-      hint: "Set the Gateway API key (gw_sk_...) in the adapter config.",
+      message: "Prism RoozyLabs requires an apiKey.",
+      hint: "Set the Gateway API key (gw_sk_prism_...) in the adapter config.",
     });
   } else if (!apiKey.startsWith("gw_sk_")) {
     checks.push({
       code: "roozy_gateway_api_key_prefix_warning",
       level: "warn",
-      message: 'API key does not start with "gw_sk_". Verify this is a Roozy AI Gateway key, not a provider key.',
+      message: 'API key does not start with "gw_sk_". Verify this is a Prism Gateway key, not a provider key.',
     });
   }
 
@@ -155,7 +155,7 @@ export async function testEnvironment(
       try {
         const body = await response.json() as { data?: Array<{ id: string }> };
         const modelIds = (body.data ?? []).map((m) => m.id);
-        const configuredModel = asString(ctx.config.model, "roozy-auto").trim();
+        const configuredModel = asString(ctx.config.model, "prism-auto").trim();
         if (modelIds.includes(configuredModel)) {
           checks.push({
             code: "roozy_gateway_model_available",
@@ -198,7 +198,7 @@ export async function testEnvironment(
       level: "error",
       message: "Could not reach the Gateway.",
       detail: errorDetail(err),
-      hint: "Check baseUrl and make sure the Roozy AI Gateway is running where Paperclip can reach it.",
+      hint: "Check baseUrl and make sure Prism RoozyLabs is running where Paperclip can reach it.",
     });
   }
 

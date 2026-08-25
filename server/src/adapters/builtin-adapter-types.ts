@@ -16,5 +16,5 @@ export const BUILTIN_ADAPTER_TYPES = new Set([
   "pi_local",
   "process",
   "http",
-  "roozy_gateway",
+  "prism_roozylabs",
 ]);

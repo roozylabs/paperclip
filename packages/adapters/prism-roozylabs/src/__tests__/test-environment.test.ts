@@ -7,11 +7,11 @@ function createTestCtx(
 ): AdapterEnvironmentTestContext {
   return {
     companyId: "company-001",
-    adapterType: "roozy_gateway",
+    adapterType: "prism_roozylabs",
     config: {
       baseUrl: "http://localhost:8080",
-      apiKey: "gw_sk_test12345678901234567890123456789012345678",
-      model: "roozy-auto",
+      apiKey: "gw_sk_prism_test12345678901234567890123456789012345678",
+      model: "prism-auto",
       ...overrides,
     },
   };
@@ -46,8 +46,8 @@ describe("testEnvironment", () => {
   it("warns when apiKey doesn't start with gw_sk_", async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ data: [{ id: "roozy-auto" }] }),
-      text: () => Promise.resolve(JSON.stringify({ data: [{ id: "roozy-auto" }] })),
+      json: () => Promise.resolve({ data: [{ id: "prism-auto" }] }),
+      text: () => Promise.resolve(JSON.stringify({ data: [{ id: "prism-auto" }] })),
     });
 
     const ctx = createTestCtx({ apiKey: "sk-not-a-gateway-key" });
@@ -58,10 +58,10 @@ describe("testEnvironment", () => {
   it("passes when gateway is reachable and auth valid", async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ data: [{ id: "roozy-auto" }, { id: "gpt-4o" }] }),
+      json: () => Promise.resolve({ data: [{ id: "prism-auto" }, { id: "gpt-4o" }] }),
       text: () =>
         Promise.resolve(
-          JSON.stringify({ data: [{ id: "roozy-auto" }, { id: "gpt-4o" }] }),
+          JSON.stringify({ data: [{ id: "prism-auto" }, { id: "gpt-4o" }] }),
         ),
     });
 
@@ -75,8 +75,8 @@ describe("testEnvironment", () => {
   it("warns when configured model not in static list", async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ data: [{ id: "roozy-auto" }] }),
-      text: () => Promise.resolve(JSON.stringify({ data: [{ id: "roozy-auto" }] })),
+      json: () => Promise.resolve({ data: [{ id: "prism-auto" }] }),
+      text: () => Promise.resolve(JSON.stringify({ data: [{ id: "prism-auto" }] })),
     });
 
     const ctx = createTestCtx({ model: "custom-model" });

@@ -12,7 +12,7 @@ const inputClass =
   "w-full rounded-md border border-border px-2.5 py-1.5 bg-transparent outline-none text-sm font-mono placeholder:text-muted-foreground/40";
 
 const DEFAULT_BASE_URL = "http://localhost:8080";
-const DEFAULT_MODEL = "roozy-auto";
+const DEFAULT_MODEL = "prism-auto";
 const DEFAULT_TIMEOUT_SEC = 600;
 
 type SecretRef = {
@@ -91,7 +91,7 @@ function SecretField({
   );
 }
 
-export function RoozyGatewayConfigFields({
+export function PrismRoozyLabsConfigFields({
   isCreate,
   values,
   set,
@@ -130,14 +130,14 @@ export function RoozyGatewayConfigFields({
     <>
       <Field
         label="Gateway URL"
-        hint="Roozy AI Gateway URL, e.g. http://localhost:8080"
+        hint="Prism RoozyLabs URL, e.g. https://api.prism.roozylabs.com or http://localhost:8080"
       >
         <DraftInput
           value={baseUrl}
           onCommit={(v) => writeValue("baseUrl", v || undefined)}
           immediate
           className={inputClass}
-          placeholder="http://localhost:8080"
+          placeholder="https://api.prism.roozylabs.com"
         />
       </Field>
 
@@ -149,17 +149,17 @@ export function RoozyGatewayConfigFields({
             : editApiKeyValue
         }
         onCommit={(v) => writeValue("apiKey", v || undefined)}
-        placeholder="gw_sk_..."
+        placeholder="gw_sk_prism_..."
         stored={!isCreate && hasStoredApiKey && !editApiKeyValue}
       />
 
-      <Field label="Model" hint="Routing model slug. Defaults to roozy-auto for smart routing.">
+      <Field label="Model" hint="Routing model slug. Defaults to prism-auto for smart routing.">
         <DraftInput
           value={model}
           onCommit={(v) => writeValue("model", v || undefined)}
           immediate
           className={inputClass}
-          placeholder="roozy-auto"
+          placeholder="prism-auto"
         />
       </Field>
 

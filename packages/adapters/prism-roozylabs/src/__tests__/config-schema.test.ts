@@ -34,12 +34,12 @@ describe("getConfigSchema", () => {
     const baseUrl = schema.fields.find((f) => f.key === "baseUrl");
     const model = schema.fields.find((f) => f.key === "model");
     expect(baseUrl?.default).toBe("http://localhost:8080");
-    expect(model?.default).toBe("roozy-auto");
+    expect(model?.default).toBe("prism-auto");
   });
 
-  it("includes roozy-auto in model options", () => {
+  it("includes prism-auto in model options", () => {
     const schema = getConfigSchema();
     const model = schema.fields.find((f) => f.key === "model");
-    expect(model?.options?.some((o) => o.value === "roozy-auto")).toBe(true);
+    expect(model?.options?.some((o) => o.value === "prism-auto")).toBe(true);
   });
 });

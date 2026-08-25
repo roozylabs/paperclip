@@ -26,7 +26,7 @@ const workspacePaths = [
   "packages/adapters/hermes-gateway",
   "packages/adapters/hermes",
   "packages/adapters/openclaw-gateway",
-  "packages/adapters/roozy-gateway",
+  "packages/adapters/prism-roozylabs",
 ];
 
 // Workspace packages that should NOT be bundled — they'll be published

@@ -4,7 +4,7 @@ import { buildRoozyGatewayConfig } from "./build-config.js";
 
 export const roozyGatewayUIAdapter = {
   type: "roozy_gateway" as const,
-  label: "Roozy AI Gateway",
+  label: "Prism RoozyLabs",
   parseStdoutLine: parseRoozyGatewayStdoutLine,
   buildAdapterConfig: buildRoozyGatewayConfig,
 };

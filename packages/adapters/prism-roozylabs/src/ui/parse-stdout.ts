@@ -33,7 +33,7 @@ export function parseRoozyGatewayStdoutLine(
   if (!trimmed) return [];
 
   const responseMatch = trimmed.match(
-    /^\[roozy-gateway:response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
+    /^\[(?:roozy|prism)-gateway:response\]\s+model=(\S+)\s+provider=(\S+)\s+request_id=(\S+)$/,
   );
   if (responseMatch) {
     return [
@@ -47,7 +47,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const resultMatch = trimmed.match(
-    /^\[roozy-gateway:result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
+    /^\[(?:roozy|prism)-gateway:result\]\s+exit=(\d+)\s+tokens_in=(\d+)\s+tokens_out=(\d+)$/,
   );
   if (resultMatch) {
     return [
@@ -67,7 +67,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const requestMatch = trimmed.match(
-    /^\[roozy-gateway:request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
+    /^\[(?:roozy|prism)-gateway:request\]\s+POST\s+(\S+)\s+model=(\S+)$/,
   );
   if (requestMatch) {
     return [
@@ -80,7 +80,7 @@ export function parseRoozyGatewayStdoutLine(
   }
 
   const toolCallsMatch = trimmed.match(
-    /^\[roozy-gateway\]\s+tool_calls detected.*$/s,
+    /^\[(?:roozy|prism)-gateway\]\s+tool_calls detected.*$/s,
   );
   if (toolCallsMatch) {
     return [
@@ -92,8 +92,8 @@ export function parseRoozyGatewayStdoutLine(
     ];
   }
 
-  if (trimmed.startsWith("[roozy-gateway]")) {
-    const inner = trimmed.replace(/^\[roozy-gateway\]\s*/, "");
+  if (trimmed.startsWith("[roozy-gateway]") || trimmed.startsWith("[prism-gateway]")) {
+    const inner = trimmed.replace(/^\[(?:roozy|prism)-gateway\]\s*/, "");
     return [{ kind: "system", ts, text: inner }];
   }
 
